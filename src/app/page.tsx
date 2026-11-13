@@ -1,100 +1,144 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRight, Play, Pause, HeartHandshake, Users, Globe } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, HeartHandshake, Users, Globe, BookOpen, Stethoscope, Utensils } from "lucide-react";
 
 export default function Home() {
-  const [isPlaying, setIsPlaying] = useState(true);
-  
-    // Reliable placeholder videos (Google's public test bucket)
-  const videos = [
-    "/videos/video1.mp4"
-  ];
-  const [currentVideo, setCurrentVideo] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Completely different information for each slide
+  const slides = [
+    {
+      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop",
+      alt: "Children learning in a classroom",
+      icon: <BookOpen className="text-accent-500 mb-4" size={32} />,
+      badge: "Education Initiative",
+      title: "Unlocking Potential Through Learning",
+      description: "Every child deserves a chance to learn. We build classrooms, provide essential learning materials, and fund scholarships to ensure education is never out of reach.",
+      primaryBtn: "Sponsor a Student",
+      primaryLink: "/get-involved",
+      secondaryBtn: "Learn More",
+      secondaryLink: "/programs"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop",
+      alt: "Doctor providing medical care",
+      icon: <Stethoscope className="text-accent-500 mb-4" size={32} />,
+      badge: "Medical Outreach",
+      title: "Bringing Healthcare to the Underserved",
+      description: "Geography should not dictate survival. Our mobile clinics and local partnerships deliver life-saving medicine, vaccinations, and medical training to remote villages.",
+      primaryBtn: "Fund Medical Supplies",
+      primaryLink: "/get-involved",
+      secondaryBtn: "See Our Impact",
+      secondaryLink: "/about"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1593113589914-075990207bc5?q=80&w=2070&auto=format&fit=crop",
+      alt: "Volunteers distributing food",
+      icon: <Utensils className="text-accent-500 mb-4" size={32} />,
+      badge: "Food Security",
+      title: "Fighting Hunger, Building Resilience",
+      description: "From emergency food relief to establishing sustainable community gardens, we are ensuring families have reliable access to nutritious meals.",
+      primaryBtn: "Donate to Food Relief",
+      primaryLink: "/get-involved",
+      secondaryBtn: "Our Programs",
+      secondaryLink: "/programs"
+    },
+  ];
+
+  // Auto-play logic (Changes every 7 seconds)
   useEffect(() => {
-    if (!isPlaying) return;
     const interval = setInterval(() => {
-      setCurrentVideo((prev) => (prev + 1) % videos.length);
-    }, 10000);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 7000);
+
     return () => clearInterval(interval);
-  }, [isPlaying, videos.length]);
+  }, [slides.length]);
 
   return (
     <div className="flex flex-col">
-      {/* HERO SECTION WITH VIDEO SLIDER */}
-            {/* HERO SECTION WITH VIDEO SLIDER */}
-      <section className="relative h-[85vh] w-full overflow-hidden bg-brand-900">
-        <video
-          key={currentVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-          // Added poster as a fallback while video loads
-          poster="https://images.unsplash.com/photo-1593113589914-075990207bc5?q=80&w=2070&auto=format&fit=crop"
-          className="absolute inset-0 h-full w-full object-cover opacity-50"
-        >
-          <source src={videos[currentVideo]} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      {/* HERO SECTION WITH DYNAMIC SLIDER */}
+      <section className="relative h-[90vh] w-full overflow-hidden bg-brand-950">
+        
+        {/* Background Images Layer */}
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              priority={index === 0}
+              className="object-cover"
+            />
+          </div>
+        ))}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-900/60 to-transparent" />
+        {/* Gradient Overlay (Dark on left for text, clear on right) */}
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-brand-950 via-brand-950/80 to-transparent" />
 
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-center px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <span className="inline-block rounded-full bg-accent-500 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-950 mb-6 shadow-lg">
-              Borderless Care Foundation
-            </span>
+        {/* Content Layer */}
+        <div className="relative z-30 mx-auto flex h-full max-w-7xl flex-col justify-center px-6 lg:px-8">
+          
+          {/* Key is used to trigger the fade animation when the slide changes */}
+          <div key={currentSlide} className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
             
-            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl mb-6 drop-shadow-md">
-              Care Without Borders. <br />
-              <span className="text-accent-500">Hope Without Limits.</span>
+            {/* Dynamic Icon & Badge */}
+            <div className="mb-6 flex flex-col gap-2">
+              {slides[currentSlide].icon}
+              <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md border border-white/20">
+                {slides[currentSlide].badge}
+              </span>
+            </div>
+            
+            {/* Dynamic Title */}
+            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl mb-6 drop-shadow-lg leading-tight">
+              {slides[currentSlide].title}
             </h1>
             
-            <p className="mt-4 text-lg text-gray-100 mb-10 max-w-2xl drop-shadow">
-              We are a nonprofit organization dedicated to providing essential resources, 
-              education, and medical support to underserved communities globally.
+            {/* Dynamic Description */}
+            <p className="mt-4 text-lg text-gray-200 mb-10 max-w-xl drop-shadow-md leading-relaxed">
+              {slides[currentSlide].description}
             </p>
 
+            {/* Dynamic Buttons */}
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href="/get-involved"
+                href={slides[currentSlide].primaryLink}
                 className="flex items-center gap-2 rounded-full bg-accent-500 px-8 py-3.5 text-sm font-bold text-brand-950 transition hover:bg-white hover:scale-105 shadow-xl"
               >
-                Donate Now
+                {slides[currentSlide].primaryBtn}
                 <ArrowRight size={18} />
               </Link>
               
               <Link
-                href="/programs"
+                href={slides[currentSlide].secondaryLink}
                 className="flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
               >
-                Our Programs
+                {slides[currentSlide].secondaryBtn}
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Slider Controls */}
-        <div className="absolute bottom-8 right-8 z-20 flex gap-2">
-          <button 
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="rounded-full bg-black/40 p-3 text-white backdrop-blur-md transition hover:bg-black/60"
-          >
-            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-          </button>
-        </div>
-        
-        <div className="absolute bottom-8 left-8 z-20 flex gap-2">
-          {videos.map((_, index) => (
+        {/* Slider Indicators (Bottom Right) */}
+        <div className="absolute bottom-10 right-10 z-30 flex gap-3">
+          {slides.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentVideo(index)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                currentVideo === index ? "w-8 bg-accent-500" : "w-4 bg-white/50 hover:bg-white"
+              onClick={() => setCurrentSlide(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                currentSlide === index 
+                  ? "w-12 bg-accent-500" 
+                  : "w-4 bg-white/40 hover:bg-white/80"
               }`}
+              aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
