@@ -80,7 +80,10 @@ export default function Home() {
         ))}
 
         {/* Gradient Overlay (Dark on left for text, clear on right) */}
-        <div className="absolute inset-0 z-20 bg-gradient-to-r from-brand-950 via-brand-950/80 to-transparent" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-brand-950/60 via-brand-950/25 to-transparent" />
+
+        {/* Bottom vignette for button/text legibility */}
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-brand-950/50 via-transparent to-transparent" />
 
         {/* Content Layer */}
         <div className="relative z-30 mx-auto flex h-full max-w-7xl flex-col justify-center px-6 lg:px-8">
@@ -133,8 +136,8 @@ export default function Home() {
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`h-2 rounded-full transition-all duration-300 ${currentSlide === index
-                  ? "w-12 bg-accent-500"
-                  : "w-4 bg-white/40 hover:bg-white/80"
+                ? "w-12 bg-accent-500"
+                : "w-4 bg-white/40 hover:bg-white/80"
                 }`}
               aria-label={`Go to slide ${index + 1}`}
             />
