@@ -35,7 +35,7 @@ export default function Home() {
       secondaryLink: "/about"
     },
     {
-      image: "https://images.unsplash.com/photo-1593113589914-075990207bc5?q=80&w=2070&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?q=80&w=2070&auto=format&fit=crop",
       alt: "Volunteers distributing food",
       icon: <Utensils className="text-accent-500 mb-4" size={32} />,
       badge: "Food Security",
@@ -61,14 +61,13 @@ export default function Home() {
     <div className="flex flex-col">
       {/* HERO SECTION WITH DYNAMIC SLIDER */}
       <section className="relative h-[90vh] w-full overflow-hidden bg-brand-950">
-        
+
         {/* Background Images Layer */}
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
           >
             <Image
               src={slide.image}
@@ -85,10 +84,10 @@ export default function Home() {
 
         {/* Content Layer */}
         <div className="relative z-30 mx-auto flex h-full max-w-7xl flex-col justify-center px-6 lg:px-8">
-          
+
           {/* Key is used to trigger the fade animation when the slide changes */}
           <div key={currentSlide} className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-            
+
             {/* Dynamic Icon & Badge */}
             <div className="mb-6 flex flex-col gap-2">
               {slides[currentSlide].icon}
@@ -96,12 +95,12 @@ export default function Home() {
                 {slides[currentSlide].badge}
               </span>
             </div>
-            
+
             {/* Dynamic Title */}
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl mb-6 drop-shadow-lg leading-tight">
               {slides[currentSlide].title}
             </h1>
-            
+
             {/* Dynamic Description */}
             <p className="mt-4 text-lg text-gray-200 mb-10 max-w-xl drop-shadow-md leading-relaxed">
               {slides[currentSlide].description}
@@ -116,7 +115,7 @@ export default function Home() {
                 {slides[currentSlide].primaryBtn}
                 <ArrowRight size={18} />
               </Link>
-              
+
               <Link
                 href={slides[currentSlide].secondaryLink}
                 className="flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
@@ -133,11 +132,10 @@ export default function Home() {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                currentSlide === index 
-                  ? "w-12 bg-accent-500" 
+              className={`h-2 rounded-full transition-all duration-300 ${currentSlide === index
+                  ? "w-12 bg-accent-500"
                   : "w-4 bg-white/40 hover:bg-white/80"
-              }`}
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}

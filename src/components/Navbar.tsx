@@ -11,6 +11,7 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Our Programs", href: "/programs" },
+    { name: "Services", href: "/services" },
     { name: "Get Involved", href: "/get-involved" },
     { name: "Contact", href: "/contact" },
   ];
@@ -18,7 +19,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md shadow-sm text-gray-900">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        
+
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-900 text-accent-500">
